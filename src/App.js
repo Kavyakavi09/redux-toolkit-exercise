@@ -1,8 +1,9 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import CartContainer from './components/CartContainer';
 import Navbar from './components/Navbar';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { calculateTotals } from './features/cart/cartSlice';
+import { calculateTotals, getCartItems } from './features/cart/cartSlice';
 import { useEffect } from 'react';
 import Modal from './components/Modal';
 
@@ -13,15 +14,20 @@ function App() {
 
   useEffect(() => {
     dispatch(calculateTotals());
-  }, [cartItems, dispatch]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cartItems]);
 
-  // if (isLoading) {
-  //   return (
-  //     <div className='loading'>
-  //       <h1>Loading...</h1>
-  //     </div>
-  //   );
-  // }
+  useEffect(() => {
+    dispatch(getCartItems());
+  }, []);
+
+  if (isLoading) {
+    return (
+      <div className='loading'>
+        <h1>Loading...</h1>
+      </div>
+    );
+  }
 
   return (
     <main>
